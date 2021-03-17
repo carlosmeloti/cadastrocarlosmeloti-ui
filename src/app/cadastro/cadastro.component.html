@@ -1,0 +1,111 @@
+<div class="container">
+    <p-card [style]="{width: 'px'}" styleClass="ui-card-shadow">
+      <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+      <div class="ui-g">
+          <div class="ui-g-12">
+              <h2>Dados Cadastrais {{ editando ? ' - Editando - ' : '' }}</h2>
+          </div>
+         
+          <div class="ui-g-7 ui-fluid">
+              <label style="display: block">Nome: </label>
+              <input type="text" name="nome" pInputText [(ngModel)]="cadastroSalvar.nome" />
+            </div>
+            <div class="ui-g-5 ui-fluid">
+              <label style="display: block">Sexo: </label>
+              <input type="text" name="Sexo" pInputText [(ngModel)]="cadastroSalvar.sexo" />
+          </div>
+          <div class="ui-g-3 ui-fluid">
+            <label style="display: block">CPF: </label>
+            <p-inputMask name="cnpjEmpresa" mask="999.999.999-99" [(ngModel)]="cadastroSalvar.cpf" ></p-inputMask>
+          </div>
+          <div class="ui-g-3 ui-fluid ">
+            <label style="display: block">Naturalidade: </label>
+            <input type="text" name="pessoContato" pInputText [(ngModel)]="cadastroSalvar.naturalidade" />
+          </div>
+          <div class="ui-g-3 ui-fluid ">
+            <label style="display: block">Nacionalidade: </label>
+            <input type="text" name="pessoContato" pInputText [(ngModel)]="cadastroSalvar.nacionalidade" />
+          </div>
+          <div class="ui-g-3 ui-fluid">
+            <label style="display: block">Data de Nascimento: </label>
+            <input type="date" name="pessoContato" pInputText [(ngModel)]="cadastroSalvar.dataNascimento" />
+          </div>
+
+          <div class="ui-g-12 ui-fluid">
+            <label style="display: block">Email </label>
+            <input type="email" name="enderecoCompleto" pInputText [(ngModel)]="cadastroSalvar.email"/>
+          </div>
+
+
+          <div class="ui-g-2 ui-fluid">
+              <br />
+              <button pButton type="submit" label="Salvar" class="ui-button-raised ui-button-success" ></button>
+            </div>
+
+          <div *ngIf="editando" class="ui-g-2 ui-fluid ">
+            <br />
+            <h3><strong><a routerLink="/cadastro">Sair da edição</a></strong></h3>
+          </div>
+
+    </div>
+    </form>
+    <div class="ui-g">
+      <div class="ui-g-12">
+          <form  autocomplete="off" (ngSubmit)="pesquisar()">
+              <div class="ui-g-12 ui-fluid">
+                  <label style="display: block">Pesquisar por Nome: </label>
+                  <input type="text" pInputText name="nome" [(ngModel)]="filtro.cpf">
+              </div>
+          </form>
+      </div>
+    </div>
+    <div class="ui-g">
+        <div class="ui-g-12">
+
+            <p-table [value]="cadastros" [paginator]="true" [rows]=10  [responsive]="true"
+              [lazy]="true" [totalRecords]="tatalRegistros" (onLazyLoad)="aoMudarPagina($event)" #tabela>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>CPF</th>
+                    <th>Nome</th>
+                    <th style=" width: 250px">Data de Nascimento</th>
+                    <th>Sexo</th>
+                    <th>Naturalidade</th>
+                    <th>Nacionalidade</th>
+                    <th>Email</th>
+                    <th style=" width: 110px"></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-result>
+                  <tr>
+                      <td style="text-align: left">{{result.cpf}}</td>
+                      <td style="text-align: left">{{result.nome}}</td>
+                      <td style="text-align: left">{{result.dataNascimento}}</td>
+                      <td style="text-align: left">{{result.sexo}}</td>
+                      <td style="text-align: left">{{result.naturalidade}}</td>
+                      <td style="text-align: left">{{result.nacionalidade}}</td>
+                      <td style="text-align: left">{{result.email}}</td>
+                      <td>
+  
+                          <a pButton icon="pi pi-pencil" pTooltip="Editar Empresa" tooltipPosition="top" [routerLink]="['/cadastro', result.cpf]"></a>
+                          <button pButton icon="pi pi-trash" style="margin-left: 10px" class="ui-button-danger" pTooltip="Excluir Cadastro" tooltipPosition="top" (click)="confirmarExclusao(result)"></button>
+  
+                      </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+
+            </div>
+
+          </div>
+
+
+  </p-card>
+  </div>
+
+
+
+
+
