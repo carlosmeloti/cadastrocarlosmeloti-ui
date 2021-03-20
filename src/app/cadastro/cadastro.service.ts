@@ -6,7 +6,7 @@ import { Cadastro } from 'src/app/core/model';
 
 
 export class CadastroFiltro {
-  cpf: any;
+  id: any;
   
 }
 
@@ -16,22 +16,22 @@ export class CadastroService {
 
   cadastrourl = 'http://localhost:8082/cadastro';
 
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+    ) { }
 
 
   pesquisar(filtro: CadastroFiltro): Promise<any> {
 
     const params = new URLSearchParams;
     const headers = new Headers;
-    headers.append('Authorization', btoa("admin" + ':' + "admin"));
+    headers.append('Authorization', 'Basic YWRtaW46YWRtaW4=');  
 
-   
-
-    if (filtro.cpf) {
-      params.set('cpf', filtro.cpf);
+    if (filtro.id) {
+      params.set('id', filtro.id);
     }
 
-    return this.http.get(`${this.cadastrourl}`, {search: filtro })
+    return this.http.get(`${this.cadastrourl}`, {headers, search: filtro })
       .toPromise()
       .then(response => {
         const responseJson = response.json();
@@ -47,18 +47,18 @@ export class CadastroService {
   };
 
 
-  excluir(cpf: number): Promise<void> {
+  excluir(id: number): Promise<void> {
     const headers = new Headers;
-    headers.append('Authorization', 'Basic YWRtaW46YWRtaW4=' + btoa("admin" + ':' + "admin"));
+    headers.append('Authorization', 'Basic YWRtaW46YWRtaW4=');
 
-    return this.http.delete(`${this.cadastrourl}/${cpf}`, { headers })
+    return this.http.delete(`${this.cadastrourl}/${id}`, { headers })
       .toPromise()
       .then(() => null);
   }
 
   adicionar(cadastro: Cadastro): Promise<Cadastro> {
     const headers = new Headers;
-    headers.append('Authorization', 'Basic YWRtaW46YWRtaW4=' + btoa("admin" + ':' + "admin"));
+    headers.append('Authorization', 'Basic YWRtaW46YWRtaW4=');
     headers.append('Content-Type', 'application/json');
 
     return this.http.post(this.cadastrourl, JSON.stringify(cadastro), { headers })
@@ -70,7 +70,7 @@ export class CadastroService {
 
   listarTodas(): Promise<any> {
     const headers = new Headers;
-    headers.append('Authorization', 'Basic YWRtaW46YWRtaW4=' + btoa("admin" + ':' + "admin"));
+    headers.append('Authorization', 'Basic YWRtaW46YWRtaW4=');
     headers.append('Content-Type', 'application/json');
 
     return this.http.get(this.cadastrourl, { headers })
@@ -83,7 +83,7 @@ export class CadastroService {
     headers.append('Authorization', 'Basic YWRtaW46YWRtaW4=');
     headers.append('Content-Type', 'application/json');
 
-    return this.http.put(`${this.cadastrourl}/${cadastro.cpf}`,
+    return this.http.put(`${this.cadastrourl}/${cadastro.id}`,
       JSON.stringify(cadastro), { headers })
       .toPromise()
       .then(response => {
@@ -94,15 +94,13 @@ export class CadastroService {
       });
   }
 
-  buscarPorCodigo(cpf: number): Promise<Cadastro> {
-    const headers = new Headers();
+  buscarPorCodigo(id: number) {
+    const headers = new Headers;
     headers.append('Authorization', 'Basic YWRtaW46YWRtaW4=');
-
-    return this.http.get(`${this.cadastrourl}/${cpf}`, { headers })
+    return this.http.get(`${this.cadastrourl}/${id}`, { headers })
       .toPromise()
       .then(response => {
         const cad = response.json() as Cadastro;
-
         return cad;
       });
   }

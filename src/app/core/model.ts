@@ -1,5 +1,6 @@
 export class Cadastro {
-  cpf: number;
+  id: number;
+  cpf: string;
   nome: string;
   sexo: string;
   email: string;

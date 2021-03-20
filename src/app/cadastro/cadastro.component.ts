@@ -34,19 +34,20 @@ export class CadastroComponent implements OnInit {
 
   ngOnInit() {
     // this.pesquisar();
-    const codigoCad = this.route.snapshot.params['codigo'];
+    const codigoCad = this.route.snapshot.params['id'];
 
     //se houver um id entra no metodo de carregar valores
     if (codigoCad) {
+      console.log("entrou")
       this.carregar(codigoCad);
     }
   }
- /* get editando() {
-    return Boolean(this.cadastroSalvar.cpf)
-  }*/
+  get editando() {
+    return Boolean(this.cadastroSalvar.id)
+  }
   //Metodo para carregar valores
-  carregar(cpf: number) {
-    this.cadastroService.buscarPorCodigo(cpf)
+  carregar(id: number) {
+    this.cadastroService.buscarPorCodigo(id)
       .then(cadastro => {
         this.cadastroSalvar = cadastro;
       })
@@ -74,7 +75,7 @@ export class CadastroComponent implements OnInit {
 
   excluir(cadastro: any) {
 
-    this.cadastroService.excluir(cadastro.cpf)
+    this.cadastroService.excluir(cadastro.id)
       .then(() => {
         if (this.grid.first === 0) {
           this.pesquisar();
@@ -82,53 +83,22 @@ export class CadastroComponent implements OnInit {
           this.grid.first = 0;
           this.pesquisar();
         }
-        this.toasty.success('Cadastri excluído com sucesso!');
+        this.toasty.success('Cadastro excluído com sucesso!');
       })
       .catch(erro => this.errorHandler.handle(erro));
 
   }
 
-  /*salvar(form: FormControl) {
+  salvar(form: FormControl) {
 
-    if (this.editando) {
-      this.confirmarAlterar(form);
+    if (!this.editando) {
+      this.adicionar(form);
     } else {
-      this.confirmarSalvar(form);
+      this.atualizar(form);
     }
 
-  }*/
-  confirmarExclusao(cadastro: any) {
-    if(cadastro.cpf != 1){
-      this.confirmation.confirm({
-        message: 'Tem certeza que deseja excluir?',
-        accept: () => {
-           this.excluir(cadastro);
-        }
-      })
-    } else {
-      this.toasty.warning('Exception');
-    }
-    
   }
-
-  salvar(cadastro: any) {
-    this.confirmation.confirm({
-      message: 'Tem certeza que deseja salvar?',
-      accept: () => {
-        this.adicionar(cadastro);
-      }
-    });
-  }
-
-  confirmarAlterar(cadastro: any) {
-    this.confirmation.confirm({
-      message: 'Tem certeza que deseja alterar?',
-      accept: () => {
-        this.atualizar(cadastro);
-      }
-    });
-  }
-
+  
   adicionar(form: FormControl) {
     this.cadastroService.adicionar(this.cadastroSalvar)
       .then(() => {
@@ -154,6 +124,5 @@ export class CadastroComponent implements OnInit {
   refresh(): void {
     window.location.reload();
   }
-
 }
 

@@ -35,11 +35,9 @@ import { NodeService } from 'src/service/nodeservice';
 import { ErrorHandlerService } from './core/error-handler.service';
 import { from } from 'rxjs';import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {FieldsetModule} from 'primeng/fieldset';
-
-
 const routes: Routes = [
   { path: 'cadastro', component:CadastroComponent},
-  { path: 'cadastro/:codigo', component:CadastroComponent},
+  { path: 'cadastro/:id', component:CadastroComponent},
   
   { path: '', redirectTo: '/cadastro', pathMatch: 'full' },
 ]

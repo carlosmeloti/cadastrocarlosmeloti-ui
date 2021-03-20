@@ -5,6 +5,10 @@
           <div class="ui-g-12">
               <h2>Dados Cadastrais {{ editando ? ' - Editando - ' : '' }}</h2>
           </div>
+          <div class="ui-g-12 ui-fluid">
+            <label style="display: block">Código: </label>
+            <input type="text" name="codigo" [readonly]="true" style="width: 50px" [(ngModel)]="cadastroSalvar.id" />
+          </div>
          
           <div class="ui-g-7 ui-fluid">
               <label style="display: block">Nome: </label>
@@ -16,32 +20,31 @@
           </div>
           <div class="ui-g-3 ui-fluid">
             <label style="display: block">CPF: </label>
-            <p-inputMask name="cnpjEmpresa" mask="999.999.999-99" [(ngModel)]="cadastroSalvar.cpf" ></p-inputMask>
+            <p-inputMask name="cpf" mask="999.999.999-99" [(ngModel)]="cadastroSalvar.cpf" ></p-inputMask>
           </div>
           <div class="ui-g-3 ui-fluid ">
             <label style="display: block">Naturalidade: </label>
-            <input type="text" name="pessoContato" pInputText [(ngModel)]="cadastroSalvar.naturalidade" />
+            <input type="text" name="naturalidade" pInputText [(ngModel)]="cadastroSalvar.naturalidade" />
           </div>
           <div class="ui-g-3 ui-fluid ">
             <label style="display: block">Nacionalidade: </label>
-            <input type="text" name="pessoContato" pInputText [(ngModel)]="cadastroSalvar.nacionalidade" />
+            <input type="text" name="nacionalidade" pInputText [(ngModel)]="cadastroSalvar.nacionalidade" />
           </div>
           <div class="ui-g-3 ui-fluid">
             <label style="display: block">Data de Nascimento: </label>
-            <input type="date" name="pessoContato" pInputText [(ngModel)]="cadastroSalvar.dataNascimento" />
+            <input type="date" name="datanascimento" pInputText [(ngModel)]="cadastroSalvar.datanascimento" />
           </div>
 
           <div class="ui-g-12 ui-fluid">
             <label style="display: block">Email </label>
-            <input type="email" name="enderecoCompleto" pInputText [(ngModel)]="cadastroSalvar.email"/>
+            <input type="email" name="email" pInputText [(ngModel)]="cadastroSalvar.email"/>
+          </div>
+          <div class="ui-g-2 ui-fluid">
+            <br />
+            <button pButton type="submit" label="Salvar" class="ui-button-raised ui-button-success"></button>
           </div>
 
-
-          <div class="ui-g-2 ui-fluid">
-              <br />
-              <button pButton type="submit" label="Salvar" class="ui-button-raised ui-button-success" ></button>
-            </div>
-
+          
           <div *ngIf="editando" class="ui-g-2 ui-fluid ">
             <br />
             <h3><strong><a routerLink="/cadastro">Sair da edição</a></strong></h3>
@@ -54,7 +57,7 @@
           <form  autocomplete="off" (ngSubmit)="pesquisar()">
               <div class="ui-g-12 ui-fluid">
                   <label style="display: block">Pesquisar por Nome: </label>
-                  <input type="text" pInputText name="nome" [(ngModel)]="filtro.cpf">
+                  <input type="text" pInputText name="nome" [(ngModel)]="filtro.nome">
               </div>
           </form>
       </div>
@@ -69,11 +72,11 @@
                   <tr>
                     <th>CPF</th>
                     <th>Nome</th>
-                    <th style=" width: 250px">Data de Nascimento</th>
+                    <th>Data de Nascimento</th>
                     <th>Sexo</th>
                     <th>Naturalidade</th>
                     <th>Nacionalidade</th>
-                    <th>Email</th>
+                    <th style=" width: 200px">Email</th>
                     <th style=" width: 110px"></th>
                   </tr>
                 </ng-template>
@@ -81,15 +84,15 @@
                   <tr>
                       <td style="text-align: left">{{result.cpf}}</td>
                       <td style="text-align: left">{{result.nome}}</td>
-                      <td style="text-align: left">{{result.dataNascimento}}</td>
+                      <td style="text-align: left">{{result.datanascimento}}</td>
                       <td style="text-align: left">{{result.sexo}}</td>
                       <td style="text-align: left">{{result.naturalidade}}</td>
                       <td style="text-align: left">{{result.nacionalidade}}</td>
                       <td style="text-align: left">{{result.email}}</td>
                       <td>
   
-                          <a pButton icon="pi pi-pencil" pTooltip="Editar Empresa" tooltipPosition="top" [routerLink]="['/cadastro', result.cpf]"></a>
-                          <button pButton icon="pi pi-trash" style="margin-left: 10px" class="ui-button-danger" pTooltip="Excluir Cadastro" tooltipPosition="top" (click)="confirmarExclusao(result)"></button>
+                          <a pButton icon="pi pi-pencil" pTooltip="Editar Empresa" tooltipPosition="top" [routerLink]="['/cadastro', result.id]"></a>
+                          <button pButton icon="pi pi-trash" style="margin-left: 10px" class="ui-button-danger" pTooltip="Excluir Cadastro" tooltipPosition="top" (click)="excluir(result)"></button>
   
                       </td>
                   </tr>
