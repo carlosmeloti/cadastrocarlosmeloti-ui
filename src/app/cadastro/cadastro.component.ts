@@ -56,7 +56,7 @@ export class CadastroComponent implements OnInit {
 
   pesquisar(page = 0) {
     
-
+    
     this.cadastroService.pesquisar(this.filtro)
       .then(resultado => {
         this.tatalRegistros = resultado.total;

@@ -7,7 +7,7 @@ import { Cadastro } from 'src/app/core/model';
 
 export class CadastroFiltro {
   id: any;
-  
+  nome: string;  
 }
 
 
@@ -34,7 +34,7 @@ export class CadastroService {
     return this.http.get(`${this.cadastrourl}`, {headers, search: filtro })
       .toPromise()
       .then(response => {
-        const responseJson = response.json();
+        const responseJson = response.json().content;
         const cadastro = responseJson;
 
         const resultado = {
@@ -63,7 +63,7 @@ export class CadastroService {
 
     return this.http.post(this.cadastrourl, JSON.stringify(cadastro), { headers })
       .toPromise()
-      .then(response => response.json());
+      .then(response => response.json().content);
   }
 
 
@@ -75,7 +75,7 @@ export class CadastroService {
 
     return this.http.get(this.cadastrourl, { headers })
       .toPromise()
-      .then(response => response.json());
+      .then(response => response.json().content);
   }
 
   atualizar(cadastro: Cadastro): Promise<Cadastro> {
